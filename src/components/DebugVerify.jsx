@@ -13,7 +13,8 @@ export default function DebugVerify() {
   return (
     <pre style={{
       whiteSpace: 'pre-wrap',
-      background: 'rgba(255,255,255,0.06)',
+      background: 'rgba(255,255,255,0.10)',
+      color: '#fff',
       padding: 12, borderRadius: 10, marginTop: 12, fontSize: 12
     }}>
       {state.status === 'loading' && 'Проверяем initData...'}
