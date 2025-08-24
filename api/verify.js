@@ -1,32 +1,74 @@
-const crypto = require('crypto');
+const crypto = require('node:crypto');
 
-function check(initData, botToken, maxAgeSec = 3600) {
-  if (!initData || !botToken) return { ok:false, error:'NO_DATA_OR_TOKEN' };
-  const url = new URLSearchParams(initData);
-  const hash = url.get('hash');
-  if (!hash) return { ok:false, error:'NO_HASH' };
-  url.delete('hash');
+// Универсальный парсер тела (Vercel может не всегда прокинуть req.body)
+async function readJsonBody(req) {
+  if (req.body && typeof req.body === 'object') return req.body;
+  const chunks = [];
+  for await (const c of req) chunks.push(c);
+  const raw = Buffer.concat(chunks).toString('utf8') || '{}';
+  try { return JSON.parse(raw); } catch {
+    return { __raw: raw };
+  }
+}
 
-  const pairs = [];
-  for (const [k,v] of url.entries()) pairs.push(`${k}=${v}`);
-  pairs.sort();
-  const dataCheckString = pairs.join('\n');
+function verifyTelegramInitData(initData, botToken) {
+  try {
+    const params = new URLSearchParams(initData);
+    const hash = params.get('hash');
+    if (!hash) return { ok:false, reason:'NO_HASH' };
 
-  const secretKey = crypto.createHmac('sha256','WebAppData').update(botToken).digest();
-  const calcHash = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
-  if (calcHash !== hash) return { ok:false, error:'BAD_HASH' };
+    params.delete('hash');
+    const dataCheckString = Array.from(params.entries())
+      .sort(([a],[b]) => a.localeCompare(b))
+      .map(([k, v]) => `${k}=${v}`)
+      .join('\n');
 
-  const authDate = Number(url.get('auth_date')) || 0;
-  if (!authDate || (Date.now()/1000|0) - authDate > maxAgeSec) return { ok:false, error:'EXPIRED' };
+    const secretKey = crypto.createHash('sha256').update(botToken).digest();
+    const computedHash = crypto.createHmac('sha256', secretKey)
+      .update(dataCheckString)
+      .digest('hex');
 
-  let user=null; try { user = JSON.parse(url.get('user')||'{}'); } catch {}
-  return { ok:true, user };
+    const valid = computedHash === hash;
+    // user приходит как JSON-строка в параметре 'user'
+    let user = null;
+    const userStr = params.get('user');
+    if (userStr) { try { user = JSON.parse(userStr); } catch {} }
+
+    return { ok: valid, user, debug: { hasUser: !!userStr } };
+  } catch (e) {
+    return { ok:false, reason:'VERIFY_EXCEPTION', error:String(e) };
+  }
 }
 
 module.exports = async (req, res) => {
-  if (req.method !== 'POST') return res.status(405).json({ ok:false, error:'METHOD_NOT_ALLOWED' });
-  const { initData } = req.body || {};
-  const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const result = check(initData, botToken);
-  res.status(result.ok ? 200 : 401).json(result);
+  try {
+    if (req.method !== 'POST') {
+      return res.status(405).json({ ok:false, error:'METHOD_NOT_ALLOWED' });
+    }
+
+    const body = await readJsonBody(req);
+    const initData = String(body?.initData || '');
+    if (!initData) {
+      return res.status(400).json({ ok:false, error:'NO_INITDATA' });
+    }
+
+    const botToken = process.env.TELEGRAM_BOT_TOKEN || '';
+    if (!botToken) {
+      // Не падаем, а говорим явно, что токена нет
+      return res.status(500).json({ ok:false, error:'NO_BOT_TOKEN' });
+    }
+
+    const result = verifyTelegramInitData(initData, botToken);
+
+    // Возвращаем всегда JSON
+    return res.status(200).json({
+      ok: result.ok,
+      user: result.user || null,
+      reason: result.ok ? null : (result.reason || 'BAD_HASH')
+    });
+
+  } catch (e) {
+    console.error('verify api error:', e);
+    return res.status(500).json({ ok:false, error:'SERVER_ERROR', details:String(e) });
+  }
 };
