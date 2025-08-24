@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-export const config = { runtime: "nodejs20.x" }; // важно
+export const config = { runtime: "nodejs20.x" }; // жёстко закрепляем Node 20
 
 async function readJsonBody(req) {
   if (req.body && typeof req.body === "object") return req.body;
@@ -19,7 +19,7 @@ function verifyTelegramInitData(initData, botToken) {
     params.delete("hash");
     const dataCheckString = Array.from(params.entries())
       .sort(([a],[b]) => a.localeCompare(b))
-      .map(([k, v]) => `${k}=${v}`)
+      .map(([k,v]) => `${k}=${v}`)
       .join("\n");
 
     const secretKey = crypto.createHash("sha256").update(botToken).digest();
@@ -51,11 +51,7 @@ export default async function handler(req, res) {
     if (!token) return res.status(500).json({ ok:false, error:"NO_BOT_TOKEN" });
 
     const r = verifyTelegramInitData(initData, token);
-    return res.status(200).json({
-      ok: r.ok,
-      user: r.user || null,
-      reason: r.ok ? null : (r.reason || "BAD_HASH")
-    });
+    return res.status(200).json({ ok:r.ok, user:r.user ?? null, reason: r.ok ? null : (r.reason || "BAD_HASH") });
   } catch (e) {
     return res.status(500).json({ ok:false, error:"SERVER_ERROR", details:String(e) });
   }
