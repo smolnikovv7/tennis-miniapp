@@ -1,21 +1,26 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import App from './App.jsx'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
-import { verifyTelegramUser } from './auth.js'
+import AppLayout from '@/layouts/AppLayout.jsx'
+import HomePage from '@/pages/HomePage.jsx'
 
-window.Telegram?.WebApp?.ready?.()
-window.Telegram?.WebApp?.expand?.()
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <AppLayout />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: 'partners', element: <div /> },
+      { path: 'courts', element: <div /> },
+      { path: 'matches', element: <div /> },
+      { path: 'profile', element: <div /> },
+    ]
+  }
+])
 
-verifyTelegramUser()
-  .then(r => console.log('verify', r))
-  .catch(e => console.log('verify_error', String(e)))
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>
 )

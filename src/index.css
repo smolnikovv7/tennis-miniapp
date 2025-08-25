@@ -1,68 +1,367 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+:root{
+  --bg:#f4f7fb;
+  --text:#0f172a;
+  --muted:#5b677a;
+  --blue:#1e60ff;
+  --blue-2:#134fe6;
+  --green:#22c55e;
+  --border:#e7eaf0;
+}
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+html,body,#root{height:100%}
+*{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+
+body{background:var(--bg); color:var(--text)}
+
+.app-shell{min-height:100%; display:flex; justify-content:center; padding:16px}
+.app-card{
+  width:100%;
+  max-width:640px;
+  background:linear-gradient(180deg,#fff, #fbfdff);
+  border:1px solid var(--border);
+  border-radius:20px;
+  box-shadow:0 8px 30px rgba(15,23,42,.06);
+  overflow:hidden;
+}
+.safe-scroll{min-height:100%; padding-bottom:104px}
+
+.hero{position:relative; padding:28px 16px 10px}
+.hero .ring{
+  position:absolute; inset:auto auto -36px -32px; width:280px; height:280px;
+  background:radial-gradient(closest-side, rgba(30,96,255,.12), rgba(30,96,255,0) 70%);
+  filter:blur(2px);
+}
+.hero .ring2{
+  position:absolute; inset:auto -42px -14px auto; width:220px; height:220px;
+  background:radial-gradient(closest-side, rgba(34,197,94,.12), rgba(34,197,94,0) 70%);
+  filter:blur(2px);
+}
+
+.hero-title .brand{
+  background:linear-gradient(90deg,#1e60ff,#11b47c);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+.big-plus{
+  width:220px; height:220px; border-radius:9999px; margin:22px auto 8px;
+  display:grid; place-items:center;
+  background:radial-gradient(100% 100% at 50% 0%, #37dd86 0%, #16a34a 100%);
+  box-shadow:0 14px 30px rgba(22,163,74,.28), inset 0 4px 10px rgba(255,255,255,.5);
+}
+@media (min-width:420px){ .big-plus{width:260px;height:260px;margin-top:26px}}
+
+.neo-surface{
+  background:linear-gradient(180deg,#fff, #f7fbff);
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(15,23,42,.06);
+}
+
+.hint{
+  padding:16px 18px;
+  line-height:1.3;
+  text-align:center;
+  color:#4b5563;
+  font-weight:600;
+}
+
+.btn-hero{
+  background:linear-gradient(90deg, var(--blue), var(--blue-2));
+  color:#fff !important;
+  border:none !important;
+  height:56px !important;
+  border-radius:14px !important;
+  font-weight:700 !important;
+  font-size:18px !important;
+  box-shadow:0 12px 28px rgba(30,96,255,.28);
+}
+.btn-secondary{
+  height:56px; border-radius:14px; font-weight:600; font-size:18px;
+  background:#fff; border:1px solid var(--border);
+  box-shadow:0 8px 22px rgba(15,23,42,.06);
+  color:#111827;
+}
+
+.stat-card{padding:20px; text-align:center}
+.stat-number{font-size:34px; font-weight:800; color:#0f172a}
+.stat-caption{color:#6b7280; font-weight:500}
+
+.bottom-wrap{
+  position:fixed; left:0; right:0; bottom:0; z-index:50;
+  
+  display:flex; justify-content:center;
+  background:transparent;
+}
+.bottom-nav{
+  width:100%; max-width:640px;
+  border-top-left-radius:24px; border-top-right-radius:24px;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(229,231,235,.9);
+  box-shadow:0 -8px 30px rgba(15,23,42,.08);
+}
+.bottom-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:4px; padding:10px 8px}
+.tab{display:flex; flex-direction:column; align-items:center; gap:6px; color:#808da3; padding:10px 4px; border-radius:14px; text-decoration:none}
+.tab-active{color:#fff; background:linear-gradient(180deg, #1e60ff, #2b6cff); box-shadow:0 10px 24px rgba(30,96,255,.30)}
+.tab-icon{width:26px; height:26px}
+.tab-label{font-size:14px; font-weight:700}
+
+/* ==== TUNING FOR HOME LIKE IN MOCKUP ==== */
+
+/* Базовая типографика + контейнер */
+:root{
+  --page-max: 420px;
+  --radius-xl: 20px;
+  --gap-lg: 18px;
+  --gap-md: 14px;
+  --shadow-card: 0 8px 30px rgba(16,24,40,.06), 0 2px 8px rgba(16,24,40,.04);
+}
+html, body, #root{height:100%}
+body{
+  font-family: 'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+.page{
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 16px 16px calc(96px + env(safe-area-inset-bottom, 0px));
+  background: transparent;            /* убираем «рамку» если была через фон/бордер */
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
+/* Заголовки и лид */
+.hero-title{
+  font-weight: 800;
+  font-size: clamp(28px, 6vw, 36px);
   line-height: 1.1;
+  margin: 8px 0 12px;
+}
+.hero-lead{
+  font-size: clamp(15px, 3.7vw, 18px);
+  line-height: 1.45;
+  color:#475569;
+  margin: 0 0 22px;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* Большой «плюс» — убираем лишние внутренние тени/рамки */
+.hero-ball,
+.hero-ball::before,
+.hero-ball::after{
+  box-shadow: none !important;
+  outline: 0 !important;
+  filter: none !important;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Карточка-хинт перед кнопками */
+.cta-card{
+  border-radius: var(--radius-xl);
+  padding: 18px;
+  background: #fff;
+  box-shadow: var(--shadow-card);
+  border: 0;
+  margin: 14px 0 16px;
 }
+
+/* Кнопки действий */
+.btn-primary{
+  display: flex; align-items:center; justify-content:center;
+  height: 56px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 18px;
+  margin: 0 0 12px;
+  gap: 10px;
+}
+.btn-secondary{
+  display:flex; align-items:center; justify-content:center;
+  height: 56px;
+  font-size: 18px;
+  border-radius: 18px;
+  margin: 0 0 var(--gap-lg);
+  gap: 10px;
+}
+
+/* Статистика — сетка и «воздух» */
+.stats{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-md);
+  margin: var(--gap-lg) 0 8px;
+}
+.stat-card{
+  background:#fff;
+  border-radius: 18px;
+  box-shadow: var(--shadow-card);
+  padding: 16px;
+  border: 0;
+}
+.stat-card .value{ font-size: clamp(22px, 5.4vw, 28px); font-weight: 800; }
+.stat-card .label{ font-size: 14px; color:#475569; }
+
+/* Нижняя навигация — прилипаем, делаем как в макете */
+.bottom-nav{
+  position: sticky;
+  bottom: 0; left: 0; right: 0;
+  z-index: 50;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.bottom-nav .bar{
+  margin: 8px auto 0;
+  max-width: var(--page-max);
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(16px);
+  border-radius: 24px 24px 0 0;
+  border: 1px solid rgba(15,23,42,.06);
+  box-shadow: 0 -4px 24px rgba(16,24,40,.08);
+  padding: 10px 8px;
+}
+.bottom-nav .item{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-width: 62px;
+  color:#64748B;
+  gap: 6px;
+}
+.bottom-nav .item .icon{ width: 22px; height:22px }
+.bottom-nav .item .label{ font-size: 13px; font-weight:600 }
+.bottom-nav .item.active{
+  color:#0B63F6;
+}
+.bottom-nav .pill{
+  background: linear-gradient(135deg,#2F6EF6,#1F4FE2);
+  color:#fff;
+  border-radius: 24px;
+  padding: 12px 16px;
+  box-shadow: 0 10px 30px rgba(47,110,246,.25);
+}
+
+/* Универсальные отступы между секциями */
+.section + .section{ margin-top: 22px }
+
+/* Ссылки — без подчёркиваний по умолчанию */
+a{ color: inherit; text-decoration: none }
+
+/* ==== HOME PAGE — FORCED OVERRIDES ==== */
+.tennis-home{ 
+  max-width:420px; 
+  margin:0 auto; 
+  padding:16px 16px calc(96px + env(safe-area-inset-bottom,0)) !important;
+  background:transparent !important; 
+  border:0 !important; 
+  box-shadow:none !important;
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+}
+
+/* Заголовки/лид — как в макете */
+.tennis-home h1{
+  font-weight:800 !important;
+  font-size:clamp(28px,6vw,36px) !important;
+  line-height:1.1 !important;
+  margin:8px 0 12px !important;
+}
+.tennis-home p{
+  margin:0 0 14px !important;
+  line-height:1.45;
+  color:#475569;
+}
+
+/* Большой круг с плюсом — убираем любые странные тени/границы */
+.tennis-home .hero-ball,
+.tennis-home .hero-ball *,
+.tennis-home [data-hero],
+.tennis-home [data-hero] *{
+  filter:none !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  border:0 !important;
+}
+
+/* «Хинт»-карточка перед кнопками: даём воздуха и мягкую тень */
+.tennis-home .cta-card{
+  border-radius:20px !important;
+  padding:18px !important;
+  background:#fff !important;
+  box-shadow:0 8px 30px rgba(16,24,40,.06), 0 2px 8px rgba(16,24,40,.04) !important;
+  border:0 !important;
+  margin:14px 0 16px !important;
+}
+
+/* Кнопки действий */
+.tennis-home button{
+  height:56px !important;
+  border-radius:18px !important;
+  font-size:18px !important;
+  font-weight:700 !important;
+}
+.tennis-home .btn-primary{ margin:0 0 12px !important; }
+.tennis-home .btn-secondary{ margin:0 0 18px !important; }
+
+/* Статистика — сетка и карточки */
+.tennis-home .stats,
+.tennis-home [data-stats]{
+  display:grid !important;
+  grid-template-columns:repeat(3,1fr) !important;
+  gap:14px !important;
+  margin:18px 0 8px !important;
+}
+.tennis-home .stat-card,
+.tennis-home [data-stat]{
+  background:#fff !important;
+  border-radius:18px !important;
+  box-shadow:0 8px 30px rgba(16,24,40,.06), 0 2px 8px rgba(16,24,40,.04) !important;
+  padding:16px !important;
+  border:0 !important;
+}
+.tennis-home .stat-card .value{ font-size:clamp(22px,5.4vw,28px) !important; font-weight:800 !important; }
+.tennis-home .stat-card .label{ font-size:14px !important; color:#475569 !important; }
+
+/* Нижняя навигация — прилипает и выглядит как в макете */
+.tennis-home .bottom-nav{ position:sticky !important; bottom:0; left:0; right:0; z-index:50; padding-bottom:env(safe-area-inset-bottom,0) }
+.tennis-home .bottom-nav .bar{
+  margin:8px auto 0 !important;
+  max-width:420px; background:rgba(255,255,255,.96);
+  backdrop-filter:blur(16px);
+  border-radius:24px 24px 0 0;
+  border:1px solid rgba(15,23,42,.06);
+  box-shadow:0 -4px 24px rgba(16,24,40,.08);
+  padding:10px 8px;
+}
+.tennis-home .bottom-nav .item{ display:flex; flex-direction:column; align-items:center; gap:6px; min-width:62px; color:#64748B }
+.tennis-home .bottom-nav .item .icon{ width:22px; height:22px }
+.tennis-home .bottom-nav .item .label{ font-size:13px; font-weight:600 }
+.tennis-home .bottom-nav .item.active{ color:#0B63F6 }
+.tennis-home .bottom-nav .pill{
+  background:linear-gradient(135deg,#2F6EF6,#1F4FE2); color:#fff;
+  border-radius:24px; padding:12px 16px;
+  box-shadow:0 10px 30px rgba(47,110,246,.25);
+}
+
+
+
+/* === Restore brand background === */
+body{
+  background: linear-gradient(180deg,#f6f8fb, #f1f5ff 40%, #eef8f3);
+}
+
+/* Контент держим на белом, без влияния общего градиента */
+.page, .app, main{
+  background:#fff;
+}
+
+/* Прибираем артефакт «рамки/тени» у большого зеленого круга */
+.page img, .page svg, .page canvas{
+  box-shadow:none !important;
+  outline:0 !important;
+  filter:none !important;
+}
+.ring { display: none !important; }
+.app-shell.app-shell{padding:0!important}
+.bottom-wrap.bottom-wrap{padding-bottom:0!important}
+.hint{margin-bottom:10px!important}
+.btn-hero{margin-bottom:10px!important}
+.btn-secondary{margin-bottom:10px!important}

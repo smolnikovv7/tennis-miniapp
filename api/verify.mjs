@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-export const config = { runtime: "nodejs20.x" }; // жёстко закрепляем Node 20
+export const config = { runtime: "nodejs" }; // жёстко закрепляем Node 20
 
 async function readJsonBody(req) {
   if (req.body && typeof req.body === "object") return req.body;

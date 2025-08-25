@@ -1,0 +1,225 @@
+import React, { useState, useEffect } from 'react';
+import { verifyTelegramUser } from "./auth.js";
+import DebugVerify from "../components/DebugVerify.jsx";
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
+import { Button } from '@/components/ui/button';
+import { ArrowRight, MapPin, Users, Trophy, Zap, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+export default function HomePage() {
+  const [currentTime, setCurrentTime] = useState('');
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('ru-RU', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      });
+      setCurrentTime(timeStr);
+    };
+    
+    updateTime();
+    const interval = setInterval(updateTime, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Доброе утро!';
+    if (hour < 18) return 'Добрый день!';
+    return 'Добрый вечер!';
+  };
+
+  return (
+    <div className="min-h-full bg-gradient-to-br from-slate-50 via-blue-50/30 to-green-50/20 relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div className="absolute top-10 left-10 w-32 h-32 rounded-full border-2 border-blue-600"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 rounded-full border border-green-500"></div>
+        <div className="absolute bottom-32 left-1/4 w-20 h-20 rounded-full border border-blue-400"></div>
+      </div>
+
+      <div className="container mx-auto px-6 py-8 relative z-10">
+        {/* Header Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-8"
+        >
+          <p className="text-gray-600 font-medium mb-2">{getGreeting()}</p>
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 leading-tight">
+            <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+              Теннисный
+            </span>
+            <br />
+            Клуб Москвы
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Найдите партнеров, бронируйте корты и развивайтесь в теннисе вместе с лучшим сообществом игроков Москвы
+          </p>
+        </motion.div>
+
+        {/* Tennis Ball Animation */}
+        <motion.div 
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative w-48 h-48 mx-auto mb-8"
+        >
+          <div className="floating-animation w-full h-full relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-green-600 rounded-full shadow-2xl opacity-20 animate-ping"></div>
+            <div className="relative w-full h-full bg-gradient-to-br from-green-400 to-green-500 rounded-full shadow-xl flex items-center justify-center">
+              <div className="w-2 h-20 bg-white/80 rounded-full"></div>
+              <div className="w-20 h-2 bg-white/80 rounded-full absolute"></div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Onboarding Hint */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          className="text-center mb-8"
+        >
+          <div className="inline-flex items-center bg-white/70 backdrop-blur-lg border border-gray-200 rounded-2xl px-6 py-3 shadow-sm">
+            <Zap className="w-5 h-5 text-blue-600 mr-3" />
+            <span className="text-gray-700 font-medium">С кем хотите сыграть? Найдите партнера или забронируйте корт</span>
+          </div>
+        </motion.div>
+
+        {/* Action Buttons */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex flex-col sm:flex-row justify-center gap-4 mb-12"
+        >
+          <Link to={createPageUrl('Players')} className="group">
+            <Button 
+              size="lg" 
+              className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
+            >
+              <Users className="w-6 h-6 mr-3" />
+              Найти партнера
+              <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
+          
+          <Link to={createPageUrl('Courts')} className="group">
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="w-full sm:w-auto neo-button font-semibold px-8 py-4 rounded-2xl text-gray-700 hover:text-blue-700 border-gray-200"
+            >
+              <MapPin className="w-6 h-6 mr-3" />
+              Найти корт
+            </Button>
+          </Link>
+        </motion.div>
+
+        {/* Quick Stats */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="grid grid-cols-3 gap-4 max-w-md mx-auto"
+        >
+          <div className="text-center">
+            <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-4 border border-gray-100 shadow-sm">
+              <Users className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+              <p className="text-2xl font-bold text-gray-900">150+</p>
+              <p className="text-sm text-gray-600">Игроков</p>
+            </div>
+          </div>
+          
+          <div className="text-center">
+            <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-4 border border-gray-100 shadow-sm">
+              <MapPin className="w-8 h-8 text-green-600 mx-auto mb-2" />
+              <p className="text-2xl font-bold text-gray-900">25+</p>
+              <p className="text-sm text-gray-600">Кортов</p>
+            </div>
+          </div>
+          
+          <div className="text-center">
+            <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-4 border border-gray-100 shadow-sm">
+              <Trophy className="w-8 h-8 text-orange-500 mx-auto mb-2" />
+              <p className="text-2xl font-bold text-gray-900">300+</p>
+              <p className="text-sm text-gray-600">Матчей</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Features Preview */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="mt-16 text-center"
+        >
+          <h3 className="text-xl font-semibold text-gray-800 mb-6">Что вас ждет в клубе</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Users className="w-6 h-6 text-blue-600" />
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Умный поиск</h4>
+              <p className="text-gray-600 text-sm">Находите партнеров по уровню игры и расписанию</p>
+            </div>
+            
+            <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <MapPin className="w-6 h-6 text-green-600" />
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Лучшие корты</h4>
+              <p className="text-gray-600 text-sm">Бронируйте корты в топовых клубах Москвы</p>
+            </div>
+            
+            <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Trophy className="w-6 h-6 text-orange-500" />
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Рейтинг игроков</h4>
+              <p className="text-gray-600 text-sm">Отслеживайте прогресс и соревнуйтесь</p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+
+function App() {
+  async function handleTest() {
+    try {
+      const res = await verifyTelegramUser();
+      // Покажем результат в alert, чтобы точно увидеть вывод
+      (window.Telegram?.WebApp?.showAlert || alert)(JSON.stringify(res, null, 2));
+    } catch (e) {
+      (window.Telegram?.WebApp?.showAlert || alert)('ERR: ' + String(e));
+    }
+  }
+
+  return (
+    <div className="page">
+      <h1>Теннисный Клуб Москвы</h1>
+      <p>Поиск партнёров и бронь кортов внутри Telegram.</p>
+
+      {/* Временная панель для проверки initData */}
+      <DebugVerify />
+
+      <button
+        style={{
+          width:'100%', marginTop:24, padding:'14px 16px',
+          borderRadius:12, border:'none', fontSize:16,
+          background:'#2481cc', color:'#fff'
+        }}
+        onClick={handleTest}
+      >
+        Найти партнёра v2
+      </button>
+    </div>
+  );
+}
