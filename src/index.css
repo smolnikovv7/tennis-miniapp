@@ -363,11 +363,10 @@ body{
 .app-shell.app-shell{padding:0!important}
 .bottom-wrap.bottom-wrap{padding-bottom:0!important}
 .btn-hero{margin-bottom:10px!important}
-.btn-secondary{margin-bottom:10px!important}
+.btn-secondary{margin-bottom:30px!important}
 
 .grid-cols-3{
   gap: 5px;
-  margin-top: 30px !important;
 }
 
 .hint{
