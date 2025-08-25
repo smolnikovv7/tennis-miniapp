@@ -365,3 +365,7 @@ body{
 .hint{margin-bottom:10px!important}
 .btn-hero{margin-bottom:10px!important}
 .btn-secondary{margin-bottom:10px!important}
+
+.grid-cols-3{
+  gap: 5px;
+}
