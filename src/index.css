@@ -367,6 +367,7 @@ body{
 
 .grid-cols-3{
   gap: 5px;
+  margin-top: 30px !important;
 }
 
 .hint{
