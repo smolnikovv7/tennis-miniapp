@@ -30,7 +30,7 @@ body {
 }
 .safe-scroll{min-height:100%; padding-bottom:104px}
 
-.hero{position:relative; padding:2px 16px 10px}
+.hero{position:relative; padding:2px 16px 10px !important}
 .hero .ring{
   position:absolute; inset:auto auto -36px -32px; width:280px; height:280px;
   background:radial-gradient(closest-side, rgba(30,96,255,.12), rgba(30,96,255,0) 70%);
