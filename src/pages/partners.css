@@ -1,0 +1,197 @@
+/* изоляция стилей этой страницы */
+.players-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px 16px 96px;
+  background: transparent;
+}
+
+/* лёгкий фон, как на главной — ТОЛЬКО для этой страницы */
+.players-body {
+  background: linear-gradient(180deg, #f6f8fb, #f1f5ff 40%, #eef8f3);
+}
+
+/* повторяем “кольца”, но с префиксом */
+.players-hero { position: relative; padding: 8px 8px 4px; }
+.players-ring{
+  position:absolute; inset:auto auto -36px -32px; width:280px; height:280px;
+  background:radial-gradient(closest-side, rgba(30,96,255,.12), rgba(30,96,255,0) 70%);
+  filter:blur(2px);
+}
+.players-ring2{
+  position:absolute; inset:auto -42px -14px auto; width:220px; height:220px;
+  background:radial-gradient(closest-side, rgba(34,197,94,.12), rgba(34,197,94,0) 70%);
+  filter:blur(2px);
+}
+
+.players-title{
+  text-align:center;
+  font-weight:800;
+  font-size:clamp(28px,6vw,36px);
+  color:#0f172a;
+  margin: 4px 0 6px;
+}
+.players-lead{
+  text-align:center;
+  color:#6b7280;
+  font-size:16px;
+  margin: 0 0 14px;
+}
+
+/* фильтр-панель */
+.players-filter{
+  border-radius: 18px;
+  padding: 16px;
+  margin: 10px 0 16px;
+}
+.players-filter-row{
+  display:flex; flex-direction:column; gap:12px;
+}
+@media (min-width: 640px){
+  .players-filter-row{ flex-direction:row; align-items:center; }
+}
+
+.players-search{ position:relative; flex:1; }
+.players-search-icon{
+  position:absolute; left:12px; top:50%; transform:translateY(-50%);
+  width:18px; height:18px; color:#94a3b8;
+}
+.players-input{
+  padding-left:40px !important;
+  border-radius: 12px !important;
+  background: rgba(255,255,255,.92) !important;
+  border-color:#e5e7eb !important;
+}
+
+.players-select{ display:flex; align-items:center; gap:8px; }
+.players-select-icon{ width:18px; height:18px; color:#6b7280; }
+.players-select-trigger{
+  width: 180px;
+  border-radius:12px !important;
+  background: rgba(255,255,255,.92) !important;
+  border-color:#e5e7eb !important;
+}
+
+/* статистика */
+.players-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin: 14px 0 12px;
+}
+.players-stat{
+  padding:14px;
+  border-radius:16px;
+  text-align:center;
+}
+.players-stat-icon{ width:28px; height:28px; margin: 0 auto 6px; }
+.players-blue{ color:#2563eb; }
+.players-green{ color:#16a34a; }
+.players-orange{ color:#f59e0b; }
+.players-stat-value{ font-weight:800; font-size:22px; color:#0f172a; }
+.players-stat-label{ font-size:13px; color:#64748b; }
+
+/* карточки игроков */
+.players-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+@media (min-width: 768px){
+  .players-grid{ grid-template-columns:repeat(2,1fr); }
+}
+@media (min-width: 1024px){
+  .players-grid{ grid-template-columns:repeat(3,1fr); }
+}
+
+.players-card{
+  border-radius:20px !important;
+  border:1px solid rgba(229,231,235,.85) !important;
+  background: rgba(255,255,255,.92) !important;
+  backdrop-filter: blur(10px);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.players-card:hover{ transform: scale(1.02); box-shadow: 0 8px 28px rgba(2,6,23,.08); }
+
+.players-card-body{
+  padding: 18px !important;
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+}
+
+.players-avatar-wrap{ position:relative; margin-bottom:10px; }
+.players-avatar{ width:96px; height:96px; border:4px solid #fff; box-shadow: 0 6px 18px rgba(2,6,23,.08); }
+.players-avatar-fallback{
+  background: linear-gradient(135deg,#2563eb,#7c3aed) !important;
+  color:#fff !important; font-weight:700 !important;
+}
+
+.players-star{
+  position:absolute; right:-6px; bottom:-6px;
+  background: linear-gradient(135deg,#fbbf24,#f97316);
+  width:28px; height:28px; border-radius:9999px;
+  display:grid; place-items:center;
+}
+.players-star-icon{ width:14px; height:14px; color:#fff; }
+
+.players-name{ font-size:20px; font-weight:700; margin:4px 0 2px; color:#0f172a; }
+.players-rating{ color:#6b7280; font-size:14px; margin-bottom:8px; }
+
+.players-badge{
+  margin-bottom:10px;
+  padding:6px 12px;
+  border-radius:12px !important;
+  font-weight:600 !important;
+  border:1px solid transparent;
+}
+.players-beginner{ background:#dcfce7; color:#166534; border-color:#c7f9d7; }
+.players-intermediate{ background:#dbeafe; color:#1e3a8a; border-color:#cbdcfb; }
+.players-advanced{ background:#ede9fe; color:#5b21b6; border-color:#e3d9ff; }
+
+.players-area{ color:#64748b; font-size:14px; margin-bottom:12px; }
+
+.players-full{ width:100%; }
+.players-action{
+  width:100%;
+  height:56px;
+  border-radius:14px !important;
+  font-weight:700 !important;
+  background: linear-gradient(90deg,#2563eb,#1d4ed8) !important;
+  color:#fff !important;
+  box-shadow: 0 10px 22px rgba(37,99,235,.28);
+}
+.players-action:hover{
+  background: linear-gradient(90deg,#1d4ed8,#1e40af) !important;
+}
+.players-action-icon{ width:16px; height:16px; margin-right:8px; }
+
+/* скелетон */
+.players-skel-circle{
+  width:96px; height:96px; border-radius:9999px; background:#e5e7eb; margin:0 auto 10px;
+  animation: players-pulse 1.2s infinite ease-in-out;
+}
+.players-skel-line{
+  height:14px; border-radius:10px; background:#e5e7eb; margin:8px auto;
+  animation: players-pulse 1.2s infinite ease-in-out;
+}
+.players-skel-line.w75{ width:75%; }
+.players-skel-line.w35{ width:35%; }
+.players-skel-pill{
+  width:120px; height:24px; border-radius:9999px; background:#e5e7eb; margin:8px auto;
+  animation: players-pulse 1.2s infinite ease-in-out;
+}
+.players-skel-btn{
+  width:100%; height:48px; border-radius:14px; background:#e5e7eb; margin-top:8px;
+  animation: players-pulse 1.2s infinite ease-in-out;
+}
+@keyframes players-pulse{
+  0%,100%{ opacity: .6 }
+  50%{ opacity: 1 }
+}
+
+/* универсальная “нео-поверхность”, как на главной */
+.neo-surface{
+  background: linear-gradient(180deg,#fff,#f7fbff);
+  border: 1px solid #e7eaf0;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(15,23,42,.06);
+}
