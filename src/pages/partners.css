@@ -20,14 +20,16 @@
 /* ---------- Hero ---------- */
 .players-hero { position: relative; padding: 8px 8px 4px; }
 .players-ring{
-  position:absolute; inset:auto auto -36px -32px; width:280px; height:280px;
+   display: none;
+/*   position:absolute; inset:auto auto -36px -32px; width:280px; height:280px;
   background:radial-gradient(closest-side, rgba(30,96,255,.12), rgba(30,96,255,0) 70%);
-  filter:blur(2px);
+  filter:blur(2px); */
 }
 .players-ring2{
-  position:absolute; inset:auto -42px -14px auto; width:220px; height:220px;
+   display: none;
+/*   position:absolute; inset:auto -42px -14px auto; width:220px; height:220px;
   background:radial-gradient(closest-side, rgba(34,197,94,.12), rgba(34,197,94,0) 70%);
-  filter:blur(2px);
+  filter:blur(2px); */
 }
 .players-title{
   text-align:center;
