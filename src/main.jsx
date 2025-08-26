@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
 import AppLayout from '@/layouts/AppLayout.jsx'
 import HomePage from '@/pages/HomePage.jsx'
-import PlayersPage from '@/pages/PartnersPage.jsx' // добавлено
+import PartnersPage from '@/pages/PartnersPage.jsx' // фикс: импортим то, что используем
 
 const router = createBrowserRouter([
   {
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: 'partners', element: <PartnersPage /> }, // заменено
+      { path: 'partners', element: <PartnersPage /> }, // фикс: используем импортированный компонент
       { path: 'courts', element: <div /> },
       { path: 'matches', element: <div /> },
       { path: 'profile', element: <div /> },
