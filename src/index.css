@@ -376,7 +376,10 @@ body{
 }
 
 /* === Features block === */
-.features { padding-bottom: 8px; }
+.features { 
+  padding-bottom: 8px;
+  padding-top: 30px !important;
+}
 
 .features-title {
   text-align: center;
