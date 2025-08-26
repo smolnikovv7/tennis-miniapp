@@ -380,7 +380,7 @@ body{
 
 .features-title {
   text-align: center;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 22px;
   line-height: 1.2;
   color: #0f172a;
@@ -426,7 +426,7 @@ body{
 .feature-text { flex: 1; }
 
 .feature-title {
-  font-weight: 800;
+  font-weight: 600;
   font-size: 18px;
   color: #0f172a;
   margin: 2px 0 4px;
