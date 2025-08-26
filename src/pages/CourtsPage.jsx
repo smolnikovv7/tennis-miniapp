@@ -16,7 +16,7 @@ async function fetchCourtsStub() {
       type: "indoor",
       cover: "hard",
       price_per_hour: 2500,
-      image_url: "https://images.unsplash.com/photo-1554153819-259a8bde4b63?q=80&w=1200",
+      image_url: "https://www.luzhniki.ru/media/images/27pl_sportgorodok2.2e16d0ba.fill-796x644.format-jpeg.jpg",
     },
     {
       id: 2,
