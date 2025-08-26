@@ -201,7 +201,6 @@
 .players-rating{ color:#6b7280; font-size:14px; margin-bottom:8px; }
 
 .players-badge{
-  margin-bottom:10px;
   padding:6px 12px;
   border-radius:12px !important;
   font-weight:600 !important;
@@ -216,6 +215,7 @@
 .players-full{ width:100%; }
 .players-action{
   width:100%;
+   font-size: 14px;
   height:56px;
   border-radius:14px !important;
   font-weight:700 !important;
