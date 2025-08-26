@@ -74,6 +74,44 @@ export default function HomePage() {
             <div className="stat-caption">Матчей</div>
           </div>
         </div>
+
+        {/* ── НОВЫЙ БЛОК ───────────────────────────────────────── */}
+        <section className="features mt-8">
+          <h2 className="features-title">Что вас ждёт в клубе</h2>
+
+          <div className="features-list">
+            <div className="feature-card">
+              <div className="icon-pill icon-blue">
+                <Users className="w-6 h-6" />
+              </div>
+              <div className="feature-text">
+                <div className="feature-title">Умный поиск</div>
+                <div className="feature-subtitle">Находите партнёров по уровню игры и расписанию</div>
+              </div>
+            </div>
+
+            <div className="feature-card">
+              <div className="icon-pill icon-green">
+                <MapPin className="w-6 h-6" />
+              </div>
+              <div className="feature-text">
+                <div className="feature-title">Лучшие корты</div>
+                <div className="feature-subtitle">Бронируйте корты в топовых клубах Москвы</div>
+              </div>
+            </div>
+
+            <div className="feature-card">
+              <div className="icon-pill icon-orange">
+                <Trophy className="w-6 h-6" />
+              </div>
+              <div className="feature-text">
+                <div className="feature-title">Рейтинг игроков</div>
+                <div className="feature-subtitle">Отслеживайте прогресс и соревнуйтесь</div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* ─────────────────────────────────────────────────────── */}
       </div>
     </div>
   );
