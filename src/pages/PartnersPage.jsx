@@ -1,7 +1,7 @@
+// src/pages/PartnersPage.jsx
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { User as UserModel } from "@/entities/User";
+// убрал framer-motion, чтобы не требовать зависимость
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -9,8 +9,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Search, Filter, MapPin, Users, Trophy, Star } from "lucide-react";
-import { createPageUrl } from "@/utils";
-// import "./players.css"; // <-- изолированные стили этой страницы
 
 const levelDisplay = {
   beginner: "Начинающий",
@@ -18,7 +16,21 @@ const levelDisplay = {
   advanced: "Продвинутый",
 };
 
-export default function PlayersPage() {
+// ЛОКАЛЬНЫЕ ЗАГЛУШКИ ВМЕСТО "@/entities/User"
+async function fetchUsersStub() {
+  return [
+    { id: 1, full_name: "Иван Смирнов", playing_level: "intermediate", favorite_area: "ЦАО", rating: 1250, photo_url: "" },
+    { id: 2, full_name: "Анна Петрова", playing_level: "beginner",     favorite_area: "САО", rating: 1180, photo_url: "" },
+    { id: 3, full_name: "Максим Орлов", playing_level: "advanced",      favorite_area: "ЮЗАО", rating: 1360, photo_url: "" },
+  ];
+}
+
+// ЛОКАЛЬНЫЙ АНАЛОГ createPageUrl
+function createPageUrl(path) {
+  return `/${path}`;
+}
+
+export default function PartnersPage() {
   const [players, setPlayers] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [level, setLevel] = useState("all");
@@ -28,7 +40,7 @@ export default function PlayersPage() {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const all = await UserModel.list();
+      const all = await fetchUsersStub();
       setPlayers(all);
       setFiltered(all);
       setLoading(false);
@@ -50,7 +62,6 @@ export default function PlayersPage() {
 
   return (
     <div className="players-page">
-      {/* шапка как на главной */}
       <section className="players-hero">
         <div className="players-ring" />
         <div className="players-ring2" />
@@ -58,12 +69,8 @@ export default function PlayersPage() {
         <p className="players-lead">Выберите игрока по уровню и району</p>
       </section>
 
-      {/* поисковая панель */}
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="players-filter neo-surface"
-      >
+      {/* панель фильтров */}
+      <div className="players-filter neo-surface">
         <div className="players-filter-row">
           <div className="players-search">
             <Search className="players-search-icon" />
@@ -90,9 +97,9 @@ export default function PlayersPage() {
             </Select>
           </div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* статистика в стиле главной (опционально) */}
+      {/* статистика */}
       <div className="players-stats">
         <div className="players-stat neo-surface">
           <Users className="players-stat-icon players-blue" />
@@ -116,14 +123,9 @@ export default function PlayersPage() {
         {loading
           ? Array.from({ length: 6 }).map((_, i) => <PlayerSkeleton key={i} />)
           : filtered.map((p, i) => (
-              <motion.div
-                key={p.id}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.04 }}
-              >
+              <div key={p.id}>
                 <PlayerCard player={p} />
-              </motion.div>
+              </div>
             ))}
       </div>
     </div>
@@ -184,11 +186,4 @@ function PlayerSkeleton() {
     <Card className="players-card neo-surface">
       <CardContent className="players-card-body">
         <div className="players-skel-circle" />
-        <div className="players-skel-line w75" />
-        <div className="players-skel-line w35" />
-        <div className="players-skel-pill" />
-        <div className="players-skel-btn" />
-      </CardContent>
-    </Card>
-  );
-}
+        <div className="pla
