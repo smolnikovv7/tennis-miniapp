@@ -374,3 +374,75 @@ body{
   margin-bottom:30px!important;
   margin-top: 20px !important;
 }
+
+/* === Features block === */
+.features { padding-bottom: 8px; }
+
+.features-title {
+  text-align: center;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.2;
+  color: #0f172a;
+  margin: 8px 0 16px;
+}
+
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* карточка */
+.feature-card {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.9);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(15,23,42,0.06);
+  box-shadow: 0 8px 28px rgba(2, 6, 23, 0.06);
+}
+
+/* иконка-пилюля */
+.icon-pill {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* цветовые варианты */
+.icon-blue   { background: linear-gradient(180deg, #eaf1ff, #dfe9ff); color:#1e60ff; }
+.icon-green  { background: linear-gradient(180deg, #e9f9ef, #dbf3e7); color:#16a34a; }
+.icon-orange { background: linear-gradient(180deg, #fff1e6, #ffe8d7); color:#f59e0b; }
+
+/* тексты */
+.feature-text { flex: 1; }
+
+.feature-title {
+  font-weight: 800;
+  font-size: 18px;
+  color: #0f172a;
+  margin: 2px 0 4px;
+}
+
+.feature-subtitle {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #6b7280;
+}
+
+/* небольшие правки состояний */
+.feature-card:active { transform: translateY(1px); }
+
+/* адаптив на больших экранах (опционально) */
+@media (min-width: 640px) {
+  .features-list { gap: 14px; }
+  .feature-card { padding: 18px; }
+}
