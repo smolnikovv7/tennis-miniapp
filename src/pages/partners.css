@@ -1,4 +1,9 @@
-/* изоляция стилей этой страницы */
+/* =========================
+   Partners (players) page
+   Изолированный CSS
+   ========================= */
+
+/* Контейнер страницы */
 .players-page {
   max-width: 640px;
   margin: 0 auto;
@@ -6,12 +11,13 @@
   background: transparent;
 }
 
-/* лёгкий фон, как на главной — ТОЛЬКО для этой страницы */
+/* Лёгкий фон — только на этой странице
+   (класс вешается/снимается на <body> из компонента) */
 .players-body {
   background: linear-gradient(180deg, #f6f8fb, #f1f5ff 40%, #eef8f3);
 }
 
-/* повторяем “кольца”, но с префиксом */
+/* ---------- Hero ---------- */
 .players-hero { position: relative; padding: 8px 8px 4px; }
 .players-ring{
   position:absolute; inset:auto auto -36px -32px; width:280px; height:280px;
@@ -23,7 +29,6 @@
   background:radial-gradient(closest-side, rgba(34,197,94,.12), rgba(34,197,94,0) 70%);
   filter:blur(2px);
 }
-
 .players-title{
   text-align:center;
   font-weight:800;
@@ -38,12 +43,19 @@
   margin: 0 0 14px;
 }
 
-/* фильтр-панель */
+/* ---------- Фильтр ---------- */
 .players-filter{
-  border-radius: 18px;
+  position: relative;
+  border-radius: 24px;
   padding: 16px;
   margin: 10px 0 16px;
+  background: linear-gradient(180deg,#fff,#f7fbff);
+  border: 1px solid #e7eaf0;
+  box-shadow: 0 10px 30px rgba(15,23,42,.06);
+  overflow: hidden;                 /* дети не вылезают за скругление */
+  background-clip: padding-box;     /* корректный клип для Safari */
 }
+
 .players-filter-row{
   display:flex; flex-direction:column; gap:12px;
 }
@@ -51,28 +63,79 @@
   .players-filter-row{ flex-direction:row; align-items:center; }
 }
 
-.players-search{ position:relative; flex:1; }
+/* Поиск */
+.players-search{ position:relative; flex:1; min-width: 0; }
 .players-search-icon{
   position:absolute; left:12px; top:50%; transform:translateY(-50%);
   width:18px; height:18px; color:#94a3b8;
 }
 .players-input{
-  padding-left:40px !important;
+  -webkit-appearance: none; appearance: none;
+  display: block;
+  width: 100%;
+  height: 48px;
+  box-sizing: border-box;
+  padding: 10px 14px 10px 40px !important;
+  font-size: 16px; line-height: 24px;
   border-radius: 12px !important;
-  background: rgba(255,255,255,.92) !important;
-  border-color:#e5e7eb !important;
+  background: #fff !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 1px 2px rgba(16,24,40,.04);
+}
+.players-input::placeholder{ color:#94a3b8; }
+.players-input:focus{
+  outline: none;
+  border-color:#2563eb !important;
+  box-shadow: 0 0 0 4px rgba(37,99,235,.12);
 }
 
-.players-select{ display:flex; align-items:center; gap:8px; }
+/* Select (кросс-браузер, в т.ч. Safari) */
+.players-select{
+  position: relative;
+  display:flex; align-items:center; gap:8px;
+  flex: 1; min-width: 0;
+}
+@media (min-width: 640px){
+  .players-select{ flex: 0 0 220px; }
+}
 .players-select-icon{ width:18px; height:18px; color:#6b7280; }
+
 .players-select-trigger{
-  width: 180px;
+  -webkit-appearance: none; -moz-appearance: none; appearance: none;
+  display: block;
+  width: 100%;
+  height: 48px;
+  box-sizing: border-box;
+  padding: 10px 40px 10px 12px;    /* место под стрелку */
+  font-size: 16px; line-height: 24px;
   border-radius:12px !important;
-  background: rgba(255,255,255,.92) !important;
-  border-color:#e5e7eb !important;
+  background: #fff !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 1px 2px rgba(16,24,40,.04);
+  background-clip: padding-box;
+  cursor: pointer;
+}
+.players-select-trigger:focus{
+  outline: none;
+  border-color:#2563eb !important;
+  box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+}
+/* Стрелка для select */
+.players-select::after{
+  content: "";
+  position: absolute;
+  right: 14px; top: 50%; transform: translateY(-50%);
+  width: 12px; height: 12px; pointer-events: none;
+  background: no-repeat center/12px 12px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
 }
 
-/* статистика */
+/* Safari-твик высоты контролов */
+@supports (-webkit-touch-callout: none) {
+  .players-input,
+  .players-select-trigger { height: 52px; }
+}
+
+/* ---------- Статистика ---------- */
 .players-stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -91,7 +154,7 @@
 .players-stat-value{ font-weight:800; font-size:22px; color:#0f172a; }
 .players-stat-label{ font-size:13px; color:#64748b; }
 
-/* карточки игроков */
+/* ---------- Сетка карточек ---------- */
 .players-grid{
   display:grid;
   grid-template-columns:1fr;
@@ -104,6 +167,7 @@
   .players-grid{ grid-template-columns:repeat(3,1fr); }
 }
 
+/* ---------- Карточка игрока ---------- */
 .players-card{
   border-radius:20px !important;
   border:1px solid rgba(229,231,235,.85) !important;
@@ -119,7 +183,7 @@
 }
 
 .players-avatar-wrap{ position:relative; margin-bottom:10px; }
-.players-avatar{ width:96px; height:96px; border:4px solid #fff; box-shadow: 0 6px 18px rgba(2,6,23,.08); }
+.players-avatar{ width:96px; height:96px; border:4px solid #fff; box-shadow: 0 6px 18px rgba(2,6,23,.08); border-radius: 9999px; }
 .players-avatar-fallback{
   background: linear-gradient(135deg,#2563eb,#7c3aed) !important;
   color:#fff !important; font-weight:700 !important;
@@ -158,13 +222,14 @@
   background: linear-gradient(90deg,#2563eb,#1d4ed8) !important;
   color:#fff !important;
   box-shadow: 0 10px 22px rgba(37,99,235,.28);
+  border: none;
 }
 .players-action:hover{
   background: linear-gradient(90deg,#1d4ed8,#1e40af) !important;
 }
 .players-action-icon{ width:16px; height:16px; margin-right:8px; }
 
-/* скелетон */
+/* ---------- Скелетон ---------- */
 .players-skel-circle{
   width:96px; height:96px; border-radius:9999px; background:#e5e7eb; margin:0 auto 10px;
   animation: players-pulse 1.2s infinite ease-in-out;
@@ -188,88 +253,10 @@
   50%{ opacity: 1 }
 }
 
-/* универсальная “нео-поверхность”, как на главной */
+/* ---------- Универсальная нео-поверхность ---------- */
 .neo-surface{
   background: linear-gradient(180deg,#fff,#f7fbff);
   border: 1px solid #e7eaf0;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(15,23,42,.06);
 }
-/* Карточка фильтра — как на первом скрине */
-.players-filter{
-  border-radius: 24px;
-  padding: 16px;
-  margin: 10px 0 16px;
-  background: linear-gradient(180deg,#fff,#f7fbff);
-  border: 1px solid #e7eaf0;
-  box-shadow: 0 10px 30px rgba(15,23,42,.06);
-}
-
-/* Ряд фильтров */
-.players-filter-row{
-  display:flex; flex-direction:column; gap:12px;
-}
-@media (min-width: 640px){
-  .players-filter-row{ flex-direction:row; align-items:center; }
-}
-
-/* Поисковое поле */
-.players-search{ position:relative; flex:1; }
-.players-search-icon{
-  position:absolute; left:12px; top:50%; transform:translateY(-50%);
-  width:18px; height:18px; color:#94a3b8;
-}
-.players-input{
-  -webkit-appearance: none; appearance: none;
-  height: 48px;
-  width: 100%;
-  padding: 10px 14px 10px 40px !important;
-  font-size: 16px; line-height: 24px;
-  border-radius: 12px !important;
-  background: #fff !important;
-  border: 1px solid #e5e7eb !important;
-  box-shadow: 0 1px 2px rgba(16,24,40,.04);
-}
-.players-input::placeholder{ color:#94a3b8; }
-.players-input:focus{
-  outline: none;
-  border-color:#2563eb !important;
-  box-shadow: 0 0 0 4px rgba(37,99,235,.12);
-}
-
-/* Выпадающий список — убираем нативный стиль и рисуем свою стрелку */
-.players-select{
-  position: relative;
-  display:flex; align-items:center; gap:8px;
-  flex: 0 0 220px; /* фиксированная ширина на десктопе */
-}
-.players-select-icon{ width:18px; height:18px; color:#6b7280; }
-
-.players-select-trigger{
-  -webkit-appearance: none; -moz-appearance: none; appearance: none;
-  height: 48px;
-  width: 100%;
-  padding: 10px 40px 10px 12px; /* место под стрелку справа */
-  font-size: 16px; line-height: 24px;
-  border-radius:12px !important;
-  background: #fff !important;
-  border: 1px solid #e5e7eb !important;
-  box-shadow: 0 1px 2px rgba(16,24,40,.04);
-  background-clip: padding-box;
-}
-.players-select-trigger:focus{
-  outline: none;
-  border-color:#2563eb !important;
-  box-shadow: 0 0 0 4px rgba(37,99,235,.12);
-}
-
-/* Стрелка у select (SVG) */
-.players-select::after{
-  content: "";
-  position: absolute;
-  right: 14px; top: 50%; transform: translateY(-50%);
-  width: 12px; height: 12px; pointer-events: none;
-  background: no-repeat center/12px 12px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-}
-
-/* Остальное — без изменений, чтобы карточки/статистика выглядели как раньше */
