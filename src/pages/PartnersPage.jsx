@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Search, Filter, MapPin, Users, Trophy, Star } from "lucide-react";
 import { createPageUrl } from "@/utils";
-import "./players.css"; // <-- изолированные стили этой страницы
+// import "./players.css"; // <-- изолированные стили этой страницы
 
 const levelDisplay = {
   beginner: "Начинающий",
