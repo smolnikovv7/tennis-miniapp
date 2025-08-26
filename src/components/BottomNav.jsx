@@ -3,7 +3,7 @@ import { Home, Users, MapPin, Trophy, User as UserIcon } from "lucide-react";
 
 const items = [
   { to: "/", label: "Главная", icon: Home },
-  { to: "/players", label: "Игроки", icon: Users },
+  { to: "/partners", label: "Игроки", icon: Users },
   { to: "/courts", label: "Корты", icon: MapPin },
   { to: "/matches", label: "Матчи", icon: Trophy },
   { to: "/profile", label: "Профиль", icon: UserIcon },
