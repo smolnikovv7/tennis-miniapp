@@ -1,0 +1,141 @@
+/* =========================
+   Courts page (изолированный CSS)
+   ========================= */
+
+/* Контейнер */
+.courts-page{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px 16px 96px;
+}
+
+/* Фон только на этой странице (навешивается классом на <body>) */
+.courts-body{
+  background: linear-gradient(180deg, #f6f8fb, #f1f5ff 40%, #eef8f3);
+}
+
+/* ---------- Hero ---------- */
+.courts-hero{ position:relative; padding: 8px 8px 14px; }
+.courts-ring{
+  position:absolute; inset:auto auto -36px -32px; width:280px; height:280px;
+  background:radial-gradient(closest-side, rgba(30,96,255,.12), rgba(30,96,255,0) 70%);
+  filter:blur(2px);
+}
+.courts-ring2{
+  position:absolute; inset:auto -42px -14px auto; width:220px; height:220px;
+  background:radial-gradient(closest-side, rgba(34,197,94,.12), rgba(34,197,94,0) 70%);
+  filter:blur(2px);
+}
+.courts-title{
+  text-align:center; font-weight:800;
+  font-size:clamp(28px,6vw,36px);
+  color:#0f172a; margin:4px 0 6px;
+}
+.courts-lead{
+  text-align:center; color:#6b7280; font-size:16px; margin:0 0 16px;
+}
+
+/* ---------- Сетка карточек ---------- */
+.courts-grid{
+  display:grid; grid-template-columns:1fr; gap:16px;
+}
+@media (min-width: 768px){ .courts-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width: 1024px){ .courts-grid{ grid-template-columns:repeat(3,1fr); } }
+
+/* ---------- Карточка ---------- */
+.court-card{
+  border-radius:20px;
+  border:1px solid #e7eaf0;
+  background:#fff;
+  box-shadow: 0 10px 30px rgba(15,23,42,.06);
+  overflow:hidden;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.court-card:hover{ transform: scale(1.015); box-shadow: 0 16px 36px rgba(15,23,42,.10); }
+
+/* Изображение */
+.court-image-wrap{ position:relative; height: 208px; overflow:hidden; }
+.court-image{
+  width:100%; height:100%; object-fit:cover;
+  transform: scale(1.0); transition: transform .5s ease;
+}
+.court-card:hover .court-image{ transform: scale(1.06); }
+
+/* Бейджи */
+.court-badge{
+  position:absolute; top:12px; display:flex; align-items:center; gap:6px;
+  height:28px; padding: 0 10px; border-radius: 9999px;
+  font-size:12px; font-weight:700;
+  box-shadow: 0 6px 18px rgba(2,6,23,.08);
+}
+.court-badge--rating{ left:12px; background: rgba(255,255,255,.92); color:#111827; }
+.court-badge--rating .icon{ width:14px; height:14px; color:#fbbf24; }
+.i-fill{ fill: currentColor; } /* чтобы Star заполнялся цветом */
+
+.court-badge--open{
+  right:12px;
+  background: linear-gradient(135deg,#22c55e,#16a34a);
+  color:#fff;
+}
+.court-badge--open .icon{ width:14px; height:14px; }
+
+/* Контент карточки */
+.court-content{ padding:16px; }
+
+.court-title{
+  display:flex; align-items:center; gap:8px;
+  font-size:18px; font-weight:800; color:#0f172a; margin:0 0 6px;
+}
+.court-title .icon.ok{ width:18px; height:18px; color:#22c55e; }
+
+.court-address{
+  display:flex; align-items:flex-start; gap:8px;
+  color:#6b7280; font-size:14px; margin:0 0 12px;
+}
+.court-address .icon.muted{ width:16px; height:16px; color:#94a3b8; margin-top:2px; }
+
+/* Чипы */
+.court-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+.tag{
+  height:26px; padding:0 10px; border-radius:9999px;
+  font-size:12px; font-weight:700;
+  border:1px solid transparent; display:inline-flex; align-items:center;
+}
+.tag--type{ background:#eef2ff; color:#3730a3; border-color:#e0e7ff; }
+.tag--cover{ background:#f5f3ff; color:#6d28d9; border-color:#ede9fe; }
+
+/* Метрики/цены */
+.court-meta{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.court-price{ display:flex; align-items:center; gap:6px; }
+.court-price .icon.muted{ width:16px; height:16px; color:#6b7280; }
+.court-price .val{ font-weight:800; font-size:18px; color:#0f172a; }
+.court-price .unit{ color:#6b7280; font-size:12px; }
+
+/* Кнопка */
+.court-action{
+  width:100%; height:48px; border:none; cursor:pointer;
+  border-radius:12px; font-weight:800; color:#fff;
+  background: linear-gradient(90deg,#16a34a,#15803d);
+  box-shadow: 0 10px 22px rgba(22,163,74,.28);
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+}
+.court-action .icon{ width:16px; height:16px; }
+.court-action:hover{ filter: brightness(1.05); box-shadow: 0 12px 26px rgba(22,163,74,.34); }
+.court-action:active{ transform: translateY(1px); }
+
+/* ---------- Скелетон ---------- */
+.court-skel-image{ height:208px; background:#e5e7eb; }
+.court-skel-line{
+  height:14px; border-radius:8px; background:#e5e7eb; margin:10px 0;
+  animation: courts-pulse 1.2s infinite ease-in-out;
+}
+.court-skel-line.w75{ width:75%; }
+.court-skel-line.w100{ width:100%; }
+.court-skel-chips{ display:flex; gap:8px; margin:6px 0 14px; }
+.court-skel-chips .chip{ width:72px; height:20px; border-radius:9999px; background:#e5e7eb; }
+.court-skel-btn{ width:100%; height:48px; border-radius:12px; background:#e5e7eb; }
+
+@keyframes courts-pulse{
+  0%,100%{ opacity:.6 } 50%{ opacity:1 }
+}
