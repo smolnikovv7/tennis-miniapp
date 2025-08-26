@@ -1,13 +1,6 @@
 // src/pages/PartnersPage.jsx
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// убрал framer-motion, чтобы не требовать зависимость
-import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { MessageCircle, Search, Filter, MapPin, Users, Trophy, Star } from "lucide-react";
 
 const levelDisplay = {
@@ -16,7 +9,7 @@ const levelDisplay = {
   advanced: "Продвинутый",
 };
 
-// ЛОКАЛЬНЫЕ ЗАГЛУШКИ ВМЕСТО "@/entities/User"
+// Заглушка данных вместо "@/entities/User"
 async function fetchUsersStub() {
   return [
     { id: 1, full_name: "Иван Смирнов", playing_level: "intermediate", favorite_area: "ЦАО", rating: 1250, photo_url: "" },
@@ -25,7 +18,7 @@ async function fetchUsersStub() {
   ];
 }
 
-// ЛОКАЛЬНЫЙ АНАЛОГ createPageUrl
+// Локальный аналог createPageUrl
 function createPageUrl(path) {
   return `/${path}`;
 }
@@ -61,129 +54,113 @@ export default function PartnersPage() {
   }, [players, level, q]);
 
   return (
-    <div className="players-page">
-      <section className="players-hero">
-        <div className="players-ring" />
-        <div className="players-ring2" />
-        <h1 className="players-title">Найти партнёра</h1>
-        <p className="players-lead">Выберите игрока по уровню и району</p>
+    <div className="players-page" style={{ padding: 16 }}>
+      {/* хедер */}
+      <section className="players-hero" style={{ marginBottom: 16 }}>
+        <h1 className="players-title" style={{ margin: 0 }}>Найти партнёра</h1>
+        <p className="players-lead" style={{ marginTop: 8 }}>Выберите игрока по уровню и району</p>
       </section>
 
-      {/* панель фильтров */}
-      <div className="players-filter neo-surface">
-        <div className="players-filter-row">
-          <div className="players-search">
-            <Search className="players-search-icon" />
-            <Input
-              value={q}
-              onChange={e => setQ(e.target.value)}
-              placeholder="Поиск по имени или району…"
-              className="players-input"
-            />
-          </div>
+      {/* фильтры */}
+      <div className="players-filter" style={{ display: "flex", gap: 12, marginBottom: 16 }}>
+        <div className="players-search" style={{ position: "relative", flex: 1 }}>
+          <Search className="players-search-icon" style={{ position: "absolute", left: 8, top: 8 }} />
+          <input
+            value={q}
+            onChange={e => setQ(e.target.value)}
+            placeholder="Поиск по имени или району…"
+            className="players-input"
+            style={{ width: "100%", padding: "8px 8px 8px 32px" }}
+          />
+        </div>
 
-          <div className="players-select">
-            <Filter className="players-select-icon" />
-            <Select value={level} onValueChange={setLevel}>
-              <SelectTrigger className="players-select-trigger">
-                <SelectValue placeholder="Фильтр по уровню" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Все уровни</SelectItem>
-                <SelectItem value="beginner">Начинающий</SelectItem>
-                <SelectItem value="intermediate">Средний</SelectItem>
-                <SelectItem value="advanced">Продвинутый</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+        <div className="players-select" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <Filter className="players-select-icon" />
+          <select
+            value={level}
+            onChange={e => setLevel(e.target.value)}
+            className="players-select-trigger"
+            style={{ padding: "8px 12px" }}
+          >
+            <option value="all">Все уровни</option>
+            <option value="beginner">Начинающий</option>
+            <option value="intermediate">Средний</option>
+            <option value="advanced">Продвинутый</option>
+          </select>
         </div>
       </div>
 
       {/* статистика */}
-      <div className="players-stats">
-        <div className="players-stat neo-surface">
-          <Users className="players-stat-icon players-blue" />
-          <div className="players-stat-value">150+</div>
-          <div className="players-stat-label">Игроков</div>
-        </div>
-        <div className="players-stat neo-surface">
-          <MapPin className="players-stat-icon players-green" />
-          <div className="players-stat-value">25+</div>
-          <div className="players-stat-label">Кортов</div>
-        </div>
-        <div className="players-stat neo-surface">
-          <Trophy className="players-stat-icon players-orange" />
-          <div className="players-stat-value">300+</div>
-          <div className="players-stat-label">Матчей</div>
-        </div>
+      <div className="players-stats" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 16 }}>
+        <Stat icon={<Users />} value="150+" label="Игроков" />
+        <Stat icon={<MapPin />} value="25+" label="Кортов" />
+        <Stat icon={<Trophy />} value="300+" label="Матчей" />
       </div>
 
-      {/* список игроков */}
-      <div className="players-grid">
+      {/* список */}
+      <div className="players-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(240px,1fr))", gap: 12 }}>
         {loading
           ? Array.from({ length: 6 }).map((_, i) => <PlayerSkeleton key={i} />)
-          : filtered.map((p, i) => (
-              <div key={p.id}>
-                <PlayerCard player={p} />
-              </div>
-            ))}
+          : filtered.map((p) => <PlayerCard key={p.id} player={p} />)}
       </div>
     </div>
   );
 }
 
+function Stat({ icon, value, label }) {
+  return (
+    <div className="players-stat" style={{ padding: 12, border: "1px solid #eee", borderRadius: 12 }}>
+      <div className="players-stat-icon" style={{ marginBottom: 8 }}>{icon}</div>
+      <div className="players-stat-value" style={{ fontWeight: 700 }}>{value}</div>
+      <div className="players-stat-label" style={{ color: "#666" }}>{label}</div>
+    </div>
+  );
+}
+
 function PlayerCard({ player }) {
-  const badgeClass =
+  const badge =
     player.playing_level === "beginner"
-      ? "players-badge players-beginner"
+      ? "Начинающий"
       : player.playing_level === "intermediate"
-      ? "players-badge players-intermediate"
-      : "players-badge players-advanced";
+      ? "Средний"
+      : "Продвинутый";
 
   return (
-    <Card className="players-card neo-surface">
-      <CardContent className="players-card-body">
-        <div className="players-avatar-wrap">
-          <Avatar className="players-avatar">
-            <AvatarImage
-              src={
-                player.photo_url ||
-                `https://api.dicebear.com/7.x/initials/svg?seed=${player.full_name}`
-              }
-              alt={player.full_name}
-            />
-            <AvatarFallback className="players-avatar-fallback">
-              {player.full_name?.substring(0, 2) || "??"}
-            </AvatarFallback>
-          </Avatar>
-          <div className="players-star">
-            <Star className="players-star-icon" />
-          </div>
+    <div className="players-card" style={{ padding: 16, border: "1px solid #eee", borderRadius: 12 }}>
+      <div className="players-avatar-wrap" style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+        <div
+          className="players-avatar"
+          style={{ width: 48, height: 48, borderRadius: "50%", background: "#f2f2f2", display: "flex", alignItems: "center", justifyContent: "center" }}
+        >
+          <Star />
         </div>
+        <div>
+          <h3 className="players-name" style={{ margin: 0 }}>{player.full_name}</h3>
+          <p className="players-rating" style={{ margin: 0, color: "#666" }}>Рейтинг: {player.rating || 1200}</p>
+        </div>
+      </div>
 
-        <h3 className="players-name">{player.full_name}</h3>
-        <p className="players-rating">Рейтинг: {player.rating || 1200}</p>
+      <div className="players-badge" style={{ marginBottom: 8, fontSize: 12, color: "#555" }}>{badge}</div>
+      <p className="players-area" style={{ marginTop: 0, color: "#666" }}>{player.favorite_area || "Любой район"}</p>
 
-        <Badge className={badgeClass}>
-          {levelDisplay[player.playing_level] || "—"}
-        </Badge>
-
-        <p className="players-area">{player.favorite_area || "Любой район"}</p>
-
-        <Link to={createPageUrl(`Matches?opponent_id=${player.id}`)} className="players-full">
-          <Button className="players-action">
-            <MessageCircle className="players-action-icon" />
-            Предложить матч
-          </Button>
-        </Link>
-      </CardContent>
-    </Card>
+      <Link to={createPageUrl(`Matches?opponent_id=${player.id}`)} className="players-full">
+        <button className="players-action" style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", borderRadius: 8, border: "1px solid #ddd" }}>
+          <MessageCircle />
+          Предложить матч
+        </button>
+      </Link>
+    </div>
   );
 }
 
 function PlayerSkeleton() {
   return (
-    <Card className="players-card neo-surface">
-      <CardContent className="players-card-body">
-        <div className="players-skel-circle" />
-        <div className="pla
+    <div className="players-card" style={{ padding: 16, border: "1px solid #eee", borderRadius: 12 }}>
+      <div className="players-skel-circle" style={{ width: 48, height: 48, borderRadius: "50%", background: "#eee", marginBottom: 8 }} />
+      <div className="players-skel-line" style={{ width: "75%", height: 12, background: "#eee", borderRadius: 6, marginBottom: 6 }} />
+      <div className="players-skel-line" style={{ width: "35%", height: 12, background: "#eee", borderRadius: 6, marginBottom: 12 }} />
+      <div className="players-skel-pill" style={{ width: 90, height: 18, background: "#eee", borderRadius: 9, marginBottom: 12 }} />
+      <div className="players-skel-btn" style={{ width: 160, height: 36, background: "#eee", borderRadius: 8 }} />
+    </div>
+  );
+}
