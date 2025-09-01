@@ -149,7 +149,7 @@ function PlayerCard({ player }) {
 
         <p className="players-area">{player.favorite_area || "Любой район"}</p>
 
-        <Link to={createPageUrl(`Matches?opponent_id=${player.id}`)} className="players-full">
+        <Link to={createPageUrl(`matches?opponent_id=${player.id}`)} className="players-full">
           <button className="players-action">
             <MessageCircle className="players-action-icon" />
             Предложить матч

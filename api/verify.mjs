@@ -27,11 +27,17 @@ function verifyTelegramInitData(initData, botToken) {
       .update(dataCheckString)
       .digest("hex");
 
+    // Timing-safe comparison to avoid leaking information via equality timing
+    const providedHashBuffer = Buffer.from(hash, "hex");
+    const computedHashBuffer = Buffer.from(computed, "hex");
+    const sameLength = providedHashBuffer.length === computedHashBuffer.length;
+    const ok = sameLength && crypto.timingSafeEqual(providedHashBuffer, computedHashBuffer);
+
     let user = null;
     const userStr = params.get("user");
     if (userStr) { try { user = JSON.parse(userStr); } catch {} }
 
-    return { ok: computed === hash, user };
+    return { ok, user };
   } catch (e) {
     return { ok:false, reason:"VERIFY_EXCEPTION", error:String(e) };
   }
